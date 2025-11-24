@@ -696,7 +696,7 @@ Their small and localized populations have declined substantially in some areas.
 `,
     human: `
 Humans have been the primary driver of yellow-eyed declines through habitat loss, disturbance and introduced predators. Intensive local conservation programs show that predator control, habitat restoration, and visitor management can improve breeding success when implemented effectively.
-",
+`,
     preservation: `
 Conservation success relies on integrated local actions:
 • Habitat restoration and protection of coastal forests.  
