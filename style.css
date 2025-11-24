@@ -97,15 +97,15 @@ body {
 .grid {
   padding: 24px;
   display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* bigger cards */
 }
 
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
   box-shadow: 0 3px 12px var(--shadow);
-  padding: 16px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
   transition: transform .2s, box-shadow .2s;
@@ -113,14 +113,14 @@ body {
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.15);
 }
 
 /* Responsive thumbnail container */
 .card .thumb {
   width: 100%;
-  aspect-ratio: 4/3; /* taller for penguins */
+  aspect-ratio: 1/1; /* square to show full penguin */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,17 +132,17 @@ body {
 .card .thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fill card nicely */
+  object-fit: contain; /* ensures full penguin visible */
   display: block;
 }
 
 .card h3 {
-  margin-top: 12px;
-  font-size: 1.2rem;
+  margin-top: 14px;
+  font-size: 1.3rem;
 }
 
 .card p {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
@@ -283,6 +283,12 @@ body {
    MEDIA QUERIES
 ---------------------------------------------------- */
 
+@media(max-width:1024px){
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
 @media(max-width:640px){
   .drawer {
     width: 100%;
@@ -290,7 +296,7 @@ body {
 
   .grid {
     gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
   .card .thumb {
