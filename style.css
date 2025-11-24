@@ -98,7 +98,7 @@ body {
   padding: 24px;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* bigger cards */
+  grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
 }
 
 .card {
@@ -120,7 +120,7 @@ body {
 /* Responsive thumbnail container */
 .card .thumb {
   width: 100%;
-  aspect-ratio: 1/1; /* square to show full penguin */
+  aspect-ratio: 1/1; /* square for full penguin */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,13 +132,13 @@ body {
 .card .thumb img {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* ensures full penguin visible */
+  object-fit: contain;
   display: block;
 }
 
 .card h3 {
   margin-top: 14px;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .card p {
@@ -188,7 +188,7 @@ body {
   padding-top: 20px;
 }
 
-/* drawer image removed */
+/* remove drawer image to avoid cut-off */
 .detail-img {
   display: none;
 }
@@ -283,23 +283,25 @@ body {
    MEDIA QUERIES
 ---------------------------------------------------- */
 
-@media(max-width:1024px){
+@media(max-width:1200px){
   .grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media(max-width:900px){
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media(max-width:640px){
-  .drawer {
-    width: 100%;
-  }
-
   .grid {
+    grid-template-columns: 1fr;
     gap: 16px;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
   .card .thumb {
-    aspect-ratio: 3/2;
+    aspect-ratio: 3/2; /* smaller on mobile */
   }
 }
