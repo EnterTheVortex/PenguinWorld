@@ -6,39 +6,39 @@
   <title>Penguin World — Encyclopedia</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    :root{--brand:#0b7285;--muted:#6b8b8f;--card:#fff}
-    body{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f5f9fa;color:#083344}
-    .site-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--brand);color:#fff}
-    .brand{font-weight:700;font-size:1.25rem}
-    .controls input,.controls select{margin-left:8px;padding:6px;border-radius:6px;border:1px solid rgba(0,0,0,0.08)}
-    main{padding:18px}
-    .intro h1{margin:0 0 6px 0}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px}
-    .card{background:var(--card);border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(3,64,120,0.04);cursor:pointer;transition:transform .14s,box-shadow .14s}
-    .card:hover{transform:translateY(-4px);box-shadow:0 10px 22px rgba(3,64,120,0.08)}
-    .thumb{height:110px;overflow:hidden;border-radius:8px}
-    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
-    .card h3{margin:8px 0 4px;font-size:1rem}
-    .card p{margin:0;color:var(--muted);font-size:0.85rem}
-    .drawer{position:fixed;top:0;right:0;width:420px;max-width:96%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,0.12);transform:translateX(100%);transition:transform .28s;z-index:1200;overflow:auto}
-    .drawer[aria-hidden="false"]{transform:translateX(0)}
-    .drawer-close{position:absolute;right:12px;top:10px;border:none;background:transparent;font-size:1.4rem;cursor:pointer}
-    .drawer-content{padding:48px 18px 28px}
-    .tabs{display:flex;gap:6px;margin-bottom:12px}
-    .tab{flex:1;padding:8px;border-radius:8px;border:none;background:#e9fbfd;cursor:pointer}
-    .tab.active{background:var(--brand);color:#fff;font-weight:700}
-    .tab-pane{display:block}
-    .detail-img{width:100%;height:160px;object-fit:cover;border-radius:8px;margin:8px 0}
-    .spec-meta{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-    .meta-pill{background:#e9fbfd;padding:6px 8px;border-radius:999px;font-size:0.82rem}
-    .fact-list{margin:6px 0 14px 18px}
-    h4{margin:12px 0 6px}
-    .muted{color:var(--muted);font-size:0.95rem}
-    footer.site-footer{text-align:center;padding:12px 18px;color:#6b7f84;background:#f0f4f5;margin-top:18px;font-size:0.85rem}
-    .climate-block{margin-bottom:10px;border-radius:8px;padding:8px;border:1px solid #e6eef0;background:#fbfeff;}
-    .climate-block summary{font-weight:700;cursor:pointer;padding:6px 4px;}
-    .climate-content{margin-top:8px;color:#21343b;line-height:1.5}
-    @media(max-width:640px){ .drawer{width:100%} .detail-img{height:200px} }
+    :root {--brand:#0b7285;--muted:#6b8b8f;--card:#fff}
+    body {font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f5f9fa;color:#083344}
+    .site-header {display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--brand);color:#fff}
+    .brand {font-weight:700;font-size:1.25rem}
+    .controls input,.controls select {margin-left:8px;padding:6px;border-radius:6px;border:1px solid rgba(0,0,0,0.08)}
+    main {padding:18px}
+    .intro h1 {margin:0 0 6px 0}
+    .grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px}
+    .card {background:var(--card);border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(3,64,120,0.04);cursor:pointer;transition:transform .14s,box-shadow .14s}
+    .card:hover {transform:translateY(-4px);box-shadow:0 10px 22px rgba(3,64,120,0.08)}
+    .thumb {height:110px;overflow:hidden;border-radius:8px}
+    .thumb img {width:100%;height:100%;object-fit:cover;display:block}
+    .card h3 {margin:8px 0 4px;font-size:1rem}
+    .card p {margin:0;color:var(--muted);font-size:0.85rem}
+    .drawer {position:fixed;top:0;right:0;width:420px;max-width:96%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,0.12);transform:translateX(100%);transition:transform .28s;z-index:1200;overflow:auto}
+    .drawer[aria-hidden="false"] {transform:translateX(0)}
+    .drawer-close {position:absolute;right:12px;top:10px;border:none;background:transparent;font-size:1.4rem;cursor:pointer}
+    .drawer-content {padding:48px 18px 28px}
+    .tabs {display:flex;gap:6px;margin-bottom:12px}
+    .tab {flex:1;padding:8px;border-radius:8px;border:none;background:#e9fbfd;cursor:pointer}
+    .tab.active {background:var(--brand);color:#fff;font-weight:700}
+    .tab-pane {display:block}
+    .detail-img {width:100%;height:160px;object-fit:cover;border-radius:8px;margin:8px 0}
+    .spec-meta {display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+    .meta-pill {background:#e9fbfd;padding:6px 8px;border-radius:999px;font-size:0.82rem}
+    .fact-list {margin:6px 0 14px 18px}
+    h4 {margin:12px 0 6px}
+    .muted {color:var(--muted);font-size:0.95rem}
+    footer.site-footer {text-align:center;padding:12px 18px;color:#6b7f84;background:#f0f4f5;margin-top:18px;font-size:0.85rem}
+    .climate-block {margin-bottom:10px;border-radius:8px;padding:8px;border:1px solid #e6eef0;background:#fbfeff;}
+    .climate-block summary {font-weight:700;cursor:pointer;padding:6px 4px;}
+    .climate-content {margin-top:8px;color:#21343b;line-height:1.5}
+    @media(max-width:640px) { .drawer {width:100%} .detail-img {height:200px} }
   </style>
 </head>
 <body>
@@ -96,15 +96,30 @@
   <script src="climates.js"></script>
   <script src="script.js"></script>
   <script>
-    // --- Patch openDrawer to render climate info from non-module climates.js ---
+    // Drawer open patch for climate tab
     const originalOpenDrawer = window.openDrawer;
     window.openDrawer = function(species) {
-      originalOpenDrawer(species);
-      // Render climate tab
-      if (species && species.id) {
+      if (typeof originalOpenDrawer === 'function') originalOpenDrawer(species);
+      if (species && species.id && typeof window.renderClimateTab === 'function') {
         window.renderClimateTab(species.id);
       }
     };
+
+    // Tab switching logic
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const paneId = tab.dataset.tab + 'Pane';
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
+        document.getElementById(paneId).style.display = 'block';
+      });
+    });
+
+    // Close drawer
+    document.getElementById('closeDrawer').addEventListener('click', () => {
+      document.getElementById('detailDrawer').setAttribute('aria-hidden', 'true');
+    });
   </script>
 </body>
 </html>
