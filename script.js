@@ -11,9 +11,16 @@ const biologyPaneEl = document.getElementById('biologyPane');
 const conservationPaneEl = document.getElementById('conservationPane');
 const climatePaneEl = document.getElementById('climatePane');
 
+// NEW mobile filter elements
+const mobileFilterBtn = document.getElementById('mobileFilterToggle');
+const filterPanel = document.getElementById('filterPanel');
+const clearFiltersBtn = document.getElementById('clearFiltersBtn');
+
 let currentSpecies = null;
 
-// --- Render grid cards ---
+// -------------------------------------------
+// Render Cards
+// -------------------------------------------
 function renderCards(list) {
   grid.innerHTML = '';
   if (!list.length) {
@@ -36,7 +43,9 @@ function renderCards(list) {
   });
 }
 
-// --- Render climate tab ---
+// -------------------------------------------
+// Climate Tab Renderer
+// -------------------------------------------
 function renderClimate(p) {
   climatePaneEl.innerHTML = '';
   const data = window.climateData?.[p.id];
@@ -58,12 +67,17 @@ function renderClimate(p) {
   sections.forEach(s => {
     const block = document.createElement('details');
     block.className = 'climate-block';
-    block.innerHTML = `<summary>${s.title}</summary><div class="climate-content">${s.content}</div>`;
+    block.innerHTML = `
+      <summary>${s.title}</summary>
+      <div class="climate-content">${s.content}</div>
+    `;
     climatePaneEl.appendChild(block);
   });
 }
 
-// --- Open / populate drawer ---
+// -------------------------------------------
+// Drawer Logic
+// -------------------------------------------
 function openDrawer(p) {
   drawer.setAttribute('aria-hidden', 'false');
   currentSpecies = p;
@@ -71,12 +85,13 @@ function openDrawer(p) {
   // Reset tabs
   tabs.forEach(t => t.classList.remove('active'));
   tabs[0].classList.add('active');
+
   overviewPaneEl.style.display = 'block';
   biologyPaneEl.style.display = 'none';
   climatePaneEl.style.display = 'none';
   conservationPaneEl.style.display = 'none';
 
-  // Overview content
+  // Overview
   const o = p.overviewPane;
   overviewPaneEl.innerHTML = `
     <h2>${o.name} <small style="font-weight:400;color:var(--muted);">${o.scientific}</small></h2>
@@ -91,38 +106,45 @@ function openDrawer(p) {
     <h4>Diet & Habitat</h4>
     <p class="muted">${o.diet} · ${o.habitat}</p>
     <h4>Notable facts</h4>
-    <ul class="fact-list">${o.facts.map(f => `<li>${f}</li>`).join('')}</ul>
+    <ul class="fact-list">
+      ${o.facts.map(f => `<li>${f}</li>`).join('')}
+    </ul>
   `;
 
-  // Biology tab
+  // Biology
   biologyPaneEl.innerHTML = `
     <h3>Biology & Behaviour</h3>
     <p class="muted">${p.biologyPane.biology}</p>
   `;
 
-  // Conservation tab
+  // Conservation
   conservationPaneEl.innerHTML = `
     <h3>Conservation & Ecology</h3>
     <p class="muted">${p.conservationPane.conservation}</p>
   `;
 
-  // Climate tab
+  // Climate
   renderClimate(p);
 
-  // Focus first tab
   tabs[0].focus();
 }
 
-// --- Close drawer ---
 closeDrawer.onclick = () => drawer.setAttribute('aria-hidden', 'true');
 
-// --- Tab switching ---
+window.addEventListener('keydown', e => {
+  if (e.key === 'Escape') drawer.setAttribute('aria-hidden', 'true');
+});
+
+// -------------------------------------------
+// Tab Switching
+// -------------------------------------------
 tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
 
     const tabName = tab.dataset.tab;
+
     overviewPaneEl.style.display = tabName === 'overview' ? 'block' : 'none';
     biologyPaneEl.style.display = tabName === 'biology' ? 'block' : 'none';
     climatePaneEl.style.display = tabName === 'climate' ? 'block' : 'none';
@@ -130,11 +152,17 @@ tabs.forEach(tab => {
   });
 });
 
-// --- Search, filter, sort ---
+// -------------------------------------------
+// Search / Filter / Sort
+// -------------------------------------------
 function applyFilters() {
   const q = search.value.trim().toLowerCase();
   const region = filterRegion.value;
-  let list = penguins.filter(p => region === 'all' || p.overviewPane.region.toLowerCase() === region.toLowerCase());
+
+  let list = penguins.filter(p =>
+    region === 'all' ||
+    p.overviewPane.region.toLowerCase() === region.toLowerCase()
+  );
 
   if (q) {
     list = list.filter(p =>
@@ -147,22 +175,52 @@ function applyFilters() {
   }
 
   switch (sortBy.value) {
-    case 'size_desc': list.sort((a,b)=>b.overviewPane.length_cm - a.overviewPane.length_cm); break;
-    case 'size_asc': list.sort((a,b)=>a.overviewPane.length_cm - b.overviewPane.length_cm); break;
-    default: list.sort((a,b)=>a.overviewPane.name.localeCompare(b.overviewPane.name));
+    case 'size_desc':
+      list.sort((a, b) => b.overviewPane.length_cm - a.overviewPane.length_cm);
+      break;
+    case 'size_asc':
+      list.sort((a, b) => a.overviewPane.length_cm - b.overviewPane.length_cm);
+      break;
+    default:
+      list.sort((a, b) =>
+        a.overviewPane.name.localeCompare(b.overviewPane.name)
+      );
   }
 
   renderCards(list);
 }
 
+// Desktop filter events
 search.addEventListener('input', applyFilters);
 filterRegion.addEventListener('change', applyFilters);
 sortBy.addEventListener('change', applyFilters);
 
-// --- Close drawer with ESC key ---
-window.addEventListener('keydown', e => {
-  if (e.key === 'Escape') drawer.setAttribute('aria-hidden', 'true');
-});
+// -------------------------------------------
+// Mobile Filter Toggle
+// -------------------------------------------
+if (mobileFilterBtn) {
+  mobileFilterBtn.addEventListener('click', () => {
+    const isOpen = filterPanel.style.display === 'block';
+    filterPanel.style.display = isOpen ? 'none' : 'block';
+    mobileFilterBtn.textContent = isOpen ? 'Show Filters' : 'Hide Filters';
+  });
+}
 
-// --- Initialize ---
+// -------------------------------------------
+// Clear Filters Button (Mobile)
+// -------------------------------------------
+if (clearFiltersBtn) {
+  clearFiltersBtn.addEventListener('click', () => {
+    search.value = '';
+    filterRegion.value = 'all';
+    sortBy.value = 'name';
+
+    applyFilters();
+  });
+}
+
+// -------------------------------------------
+// Init
+// -------------------------------------------
 renderCards(penguins);
+ 
