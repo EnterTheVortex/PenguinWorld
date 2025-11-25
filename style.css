@@ -26,6 +26,7 @@ body {
   color: var(--text);
   line-height: 1.55;
   overflow-x: hidden;
+  padding-bottom: 30px; /* mobile breathing room */
 }
 
 /* ----------------------------------------------------
@@ -72,7 +73,7 @@ body {
 }
 
 /* ----------------------------------------------------
-   INTRO SECTION
+   INTRO
 ---------------------------------------------------- */
 
 .intro {
@@ -98,16 +99,16 @@ body {
   padding: 24px;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(4, 1fr); /* 4 cards per row */
-  max-width: 1400px;  /* ensures enough space for bigger cards */
-  margin: 0 auto;     /* center the grid */
+  grid-template-columns: repeat(4, 1fr); 
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .card {
   background: var(--card-bg);
   border-radius: var(--radius);
   box-shadow: 0 3px 12px var(--shadow);
-  padding: 30px;       /* bigger padding for larger card */
+  padding: 30px;  
   text-align: center;
   cursor: pointer;
   transition: transform .2s, box-shadow .2s;
@@ -119,10 +120,14 @@ body {
   box-shadow: 0 8px 22px rgba(0,0,0,0.15);
 }
 
+.card:active {
+  transform: scale(0.97); /* mobile tap animation */
+}
+
 /* Thumbnail container */
 .card .thumb {
   width: 100%;
-  height: 300px;         /* fixed larger height */
+  height: 300px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,14 +138,14 @@ body {
 
 .card .thumb img {
   width: auto;
-  height: 100%;          /* ensures full image visible, fills height */
+  height: 100%;
   object-fit: contain;
   display: block;
 }
 
 .card h3 {
   margin-top: 16px;
-  font-size: 1.6rem;      /* bigger title */
+  font-size: 1.6rem;
 }
 
 .card p {
@@ -149,7 +154,7 @@ body {
 }
 
 /* ----------------------------------------------------
-   DRAWER (DETAIL PANEL)
+   DRAWER
 ---------------------------------------------------- */
 
 .drawer {
@@ -190,7 +195,7 @@ body {
   padding-top: 20px;
 }
 
-/* remove drawer image to avoid cut-off */
+/* Remove drawer image */
 .detail-img {
   display: none;
 }
@@ -258,7 +263,7 @@ body {
 }
 
 /* ----------------------------------------------------
-   COLLAPSIBLE CLIMATE BLOCKS
+   CLIMATE BLOCKS
 ---------------------------------------------------- */
 
 .climate-block {
@@ -282,28 +287,69 @@ body {
 }
 
 /* ----------------------------------------------------
-   MEDIA QUERIES
+   RESPONSIVE BREAKPOINTS
 ---------------------------------------------------- */
 
+/* Large tablet / small desktop */
 @media(max-width:1400px){
   .grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 cards for slightly smaller screens */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
+/* Tablets */
 @media(max-width:1000px){
   .grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards on medium screens */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* MOBILE */
 @media(max-width:640px){
+
   .grid {
-    grid-template-columns: 1fr;            /* 1 card per row on mobile */
-    gap: 16px;
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 18px;
+  }
+
+  .card {
+    padding: 22px;
+    border-radius: 18px;
   }
 
   .card .thumb {
-    height: 220px;                          /* smaller on mobile */
+    height: 260px;
+    aspect-ratio: 1/1.2;
+  }
+
+  .card h3 {
+    font-size: 1.5rem;
+  }
+
+  .card p {
+    font-size: 1.1rem;
+  }
+
+  /* full-width drawer */
+  .drawer {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px;
+  }
+
+  .tab {
+    padding: 14px 8px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Very small phones */
+@media(max-width:500px){
+  .card h3 {
+    font-size: 1.35rem;
+  }
+  .tab {
+    font-size: 1rem;
   }
 }
