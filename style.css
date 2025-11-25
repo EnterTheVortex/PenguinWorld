@@ -26,7 +26,7 @@ body {
   color: var(--text);
   line-height: 1.55;
   overflow-x: hidden;
-  padding-bottom: 30px; /* mobile breathing room */
+  padding-bottom: 30px;
 }
 
 /* ----------------------------------------------------
@@ -92,6 +92,46 @@ body {
 }
 
 /* ----------------------------------------------------
+   MOBILE FILTER SYSTEM
+---------------------------------------------------- */
+
+.mobile-filter-btn {
+  display: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 12px 16px;
+  width: 92%;
+  margin: 10px auto 0 auto;
+  border-radius: var(--radius);
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+
+.filter-panel {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;
+  padding: 16px;
+  margin: 12px;
+  border-radius: var(--radius);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+
+.clear-filter-btn {
+  background: #ff4f4f;
+  color: white;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  text-align: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------
    GRID & CARDS
 ---------------------------------------------------- */
 
@@ -99,7 +139,7 @@ body {
   padding: 24px;
   display: grid;
   gap: 30px;
-  grid-template-columns: repeat(4, 1fr); 
+  grid-template-columns: repeat(4, 1fr);
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -121,13 +161,13 @@ body {
 }
 
 .card:active {
-  transform: scale(0.97); /* mobile tap animation */
+  transform: scale(0.97);
 }
 
 /* Thumbnail container */
 .card .thumb {
   width: 100%;
-  height: 300px; 
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -195,7 +235,7 @@ body {
   padding-top: 20px;
 }
 
-/* Remove drawer image */
+/* Hide detail image */
 .detail-img {
   display: none;
 }
@@ -290,14 +330,12 @@ body {
    RESPONSIVE BREAKPOINTS
 ---------------------------------------------------- */
 
-/* Large tablet / small desktop */
 @media(max-width:1400px){
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Tablets */
 @media(max-width:1000px){
   .grid {
     grid-template-columns: repeat(2, 1fr);
@@ -306,6 +344,16 @@ body {
 
 /* MOBILE */
 @media(max-width:640px){
+
+  /* Show mobile filter button */
+  .mobile-filter-btn {
+    display: block;
+  }
+
+  /* Hide desktop controls */
+  .controls {
+    display: none;
+  }
 
   .grid {
     grid-template-columns: 1fr;
@@ -331,7 +379,6 @@ body {
     font-size: 1.1rem;
   }
 
-  /* full-width drawer */
   .drawer {
     width: 100%;
     max-width: 100%;
