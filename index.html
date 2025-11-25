@@ -5,47 +5,242 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Penguin World — Encyclopedia</title>
   <link rel="stylesheet" href="style.css" />
+
   <style>
-    :root {--brand:#0b7285;--muted:#6b8b8f;--card:#fff}
-    body {font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#f5f9fa;color:#083344}
-    .site-header {display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--brand);color:#fff}
+    :root {--brand:#0b7285;--muted:#6b8b8f;--card:#fff;--border:#d7e4e7;--accent:#0b7285}
+
+    body {
+      font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
+      margin:0;
+      background:#f5f9fa;
+      color:#083344;
+    }
+
+    /* HEADER */
+    .site-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:12px 16px;
+      background:var(--brand);
+      color:#fff;
+    }
     .brand {font-weight:700;font-size:1.25rem}
-    .controls input,.controls select {margin-left:8px;padding:6px;border-radius:6px;border:1px solid rgba(0,0,0,0.08)}
+
+    /* DESKTOP CONTROLS */
+    .controls input,.controls select {
+      margin-left:8px;
+      padding:6px;
+      border-radius:6px;
+      border:1px solid rgba(0,0,0,0.08);
+    }
+
+    /* MOBILE CONTROLS */
+    .mobile-controls { display:none; }
+    .mobile-filter-btn {
+      background:rgba(255,255,255,0.92);
+      border:1px solid rgba(0,0,0,0.06);
+      padding:8px 12px;
+      border-radius:10px;
+      font-weight:600;
+      color:#083344;
+      cursor:pointer;
+    }
+
+    /* MOBILE FILTER PANEL */
+    .mobile-filter-panel {
+      position:fixed;
+      top:64px;
+      left:0;
+      right:0;
+      background:white;
+      border-bottom:1px solid var(--border);
+      box-shadow:0 8px 22px rgba(0,0,0,0.06);
+      padding:12px;
+      transform:translateY(-10px);
+      opacity:0;
+      visibility:hidden;
+      transition:.25s ease;
+      z-index:1150;
+    }
+
+    .mobile-filter-panel.open {
+      transform:translateY(0);
+      opacity:1;
+      visibility:visible;
+    }
+
+    .mobile-filter-inner {
+      max-width:100%;
+      margin:0 auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      padding:6px;
+    }
+
+    .mobile-filter-inner select {
+      padding:10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      min-width:140px;
+      background:#fff;
+      font-size:0.95rem;
+    }
+
+    .mobile-filter-actions {
+      display:flex;
+      gap:8px;
+      margin-left:auto;
+    }
+
+    .btn {
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:8px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .btn-secondary {
+      background:#f0f4f7;
+      color:#083344;
+      border:1px solid var(--border);
+    }
+
+    .visually-hidden {
+      position:absolute !important;
+      height:1px; width:1px;
+      overflow:hidden;
+      clip:rect(1px, 1px, 1px, 1px);
+      white-space:nowrap; border:0; padding:0; margin:-1px;
+    }
+
+    /* MAIN CONTENT */
     main {padding:18px}
     .intro h1 {margin:0 0 6px 0}
-    .grid {display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px}
-    .card {background:var(--card);border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(3,64,120,0.04);cursor:pointer;transition:transform .14s,box-shadow .14s}
-    .card:hover {transform:translateY(-4px);box-shadow:0 10px 22px rgba(3,64,120,0.08)}
-    .thumb {height:110px;overflow:hidden;border-radius:8px}
-    .thumb img {width:100%;height:100%;object-fit:cover;display:block}
-    .card h3 {margin:8px 0 4px;font-size:1rem}
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:16px;
+      margin-top:16px;
+    }
+
+    .card {
+      background:var(--card);
+      border-radius:14px;
+      padding:10px;
+      box-shadow:0 6px 18px rgba(3,64,120,0.06);
+      cursor:pointer;
+      transition:transform .14s,box-shadow .14s;
+    }
+    .card:hover {
+      transform:translateY(-4px);
+      box-shadow:0 12px 30px rgba(3,64,120,0.12);
+    }
+
+    .thumb {
+      height:140px;
+      overflow:hidden;
+      border-radius:10px;
+    }
+    .thumb img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .card h3 {margin:10px 0 4px;font-size:1.05rem}
     .card p {margin:0;color:var(--muted);font-size:0.85rem}
-    .drawer {position:fixed;top:0;right:0;width:420px;max-width:96%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,0.12);transform:translateX(100%);transition:transform .28s;z-index:1200;overflow:auto}
+
+    /* DRAWER */
+    .drawer {
+      position:fixed;
+      top:0;
+      right:0;
+      width:420px;
+      max-width:96%;
+      height:100%;
+      background:#fff;
+      box-shadow:-8px 0 30px rgba(0,0,0,0.12);
+      transform:translateX(100%);
+      transition:transform .28s;
+      z-index:1200;
+      overflow:auto;
+    }
     .drawer[aria-hidden="false"] {transform:translateX(0)}
-    .drawer-close {position:absolute;right:12px;top:10px;border:none;background:transparent;font-size:1.4rem;cursor:pointer}
+    .drawer-close {
+      position:absolute; right:12px; top:10px;
+      border:none; background:none; font-size:1.4rem; cursor:pointer;
+    }
+
     .drawer-content {padding:48px 18px 28px}
-    .tabs {display:flex;gap:6px;margin-bottom:12px}
-    .tab {flex:1;padding:8px;border-radius:8px;border:none;background:#e9fbfd;cursor:pointer}
-    .tab.active {background:var(--brand);color:#fff;font-weight:700}
+
+    .tabs {
+      display:flex;
+      gap:6px;
+      margin-bottom:12px;
+    }
+    .tab {
+      flex:1;
+      padding:8px;
+      border-radius:8px;
+      border:none;
+      background:#e9fbfd;
+      cursor:pointer;
+    }
+    .tab.active {
+      background:var(--brand);
+      color:#fff;
+      font-weight:700;
+    }
     .tab-pane {display:block}
-    .detail-img {width:100%;height:160px;object-fit:cover;border-radius:8px;margin:8px 0}
-    .spec-meta {display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
-    .meta-pill {background:#e9fbfd;padding:6px 8px;border-radius:999px;font-size:0.82rem}
-    .fact-list {margin:6px 0 14px 18px}
-    h4 {margin:12px 0 6px}
-    .muted {color:var(--muted);font-size:0.95rem}
-    footer.site-footer {text-align:center;padding:12px 18px;color:#6b7f84;background:#f0f4f5;margin-top:18px;font-size:0.85rem}
-    .climate-block {margin-bottom:10px;border-radius:8px;padding:8px;border:1px solid #e6eef0;background:#fbfeff;}
-    .climate-block summary {font-weight:700;cursor:pointer;padding:6px 4px;}
-    .climate-content {margin-top:8px;color:#21343b;line-height:1.5}
-    @media(max-width:640px) { .drawer {width:100%} .detail-img {height:200px} }
+
+    .detail-img {
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      border-radius:8px;
+      margin:8px 0;
+    }
+
+    footer.site-footer {
+      text-align:center;
+      padding:12px 18px;
+      color:#6b7f84;
+      background:#f0f4f5;
+      margin-top:18px;
+      font-size:0.85rem;
+    }
+
+    /* MOBILE BREAKPOINT */
+    @media(max-width:640px) {
+      .controls { display:none; }
+      .mobile-controls { display:block; }
+      .site-header { gap:12px; padding:14px 16px; }
+      .mobile-filter-inner select {
+        flex:1 1 140px;
+        min-width:130px;
+      }
+      .drawer { width:100%; }
+      .detail-img { height:200px; }
+    }
   </style>
 </head>
+
 <body>
+
+  <!-- HEADER -->
   <header class="site-header">
     <div class="brand">🐧 Penguin World</div>
+
+    <!-- DESKTOP FILTERS -->
     <nav class="controls" aria-label="site controls">
-      <input id="search" placeholder="Search species or keyword..." aria-label="Search species"/>
+      <input id="search" placeholder="Search species..." aria-label="Search species"/>
       <select id="filterRegion" aria-label="Filter region">
         <option value="all">All regions</option>
         <option value="antarctica">Antarctica</option>
@@ -59,67 +254,83 @@
         <option value="size_asc">Sort: Size (smallest)</option>
       </select>
     </nav>
+
+    <!-- MOBILE FILTER BUTTON -->
+    <div class="mobile-controls">
+      <button id="toggleFiltersBtn" class="mobile-filter-btn" aria-expanded="false" aria-controls="mobileFilterPanel">
+        Filters ▾
+      </button>
+    </div>
   </header>
 
+  <!-- MOBILE FILTER PANEL -->
+  <div id="mobileFilterPanel" class="mobile-filter-panel" aria-hidden="true">
+    <div class="mobile-filter-inner">
+
+      <label class="visually-hidden" for="mobileFilterRegion">Filter region</label>
+      <select id="mobileFilterRegion">
+        <option value="all">All regions</option>
+        <option value="antarctica">Antarctica</option>
+        <option value="subantarctic">Subantarctic & islands</option>
+        <option value="temperate">Temperate (South America, Africa, Australia/NZ)</option>
+        <option value="tropical">Tropical (Galápagos)</option>
+      </select>
+
+      <label class="visually-hidden" for="mobileSortBy">Sort species</label>
+      <select id="mobileSortBy">
+        <option value="name">Sort: Name</option>
+        <option value="size_desc">Sort: Size (largest)</option>
+        <option value="size_asc">Sort: Size (smallest)</option>
+      </select>
+
+      <div class="mobile-filter-actions">
+        <button id="applyMobileFilters" class="btn">Apply</button>
+        <button id="clearFilters" class="btn btn-secondary">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
   <main>
     <section class="intro">
       <h1>Penguin World — Species Guide</h1>
-      <p class="muted">Interactive encyclopedia covering all recognised penguin species. Click a card to view detailed information, biology, climate, and conservation.</p>
+      <p class="muted">
+        Interactive encyclopedia covering all recognised penguin species.  
+        Click a card to view detailed information, biology, climate, and conservation.
+      </p>
     </section>
 
     <section class="grid" id="penguinGrid" aria-live="polite"></section>
   </main>
 
-  <aside class="drawer" id="detailDrawer" aria-hidden="true" aria-label="penguin details">
-    <button id="closeDrawer" class="drawer-close" aria-label="Close details">✕</button>
-    <div class="drawer-content" id="drawerContent">
-      <div class="tabs" role="tablist" aria-label="Detail tabs">
-        <button class="tab active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
-        <button class="tab" data-tab="biology" role="tab" aria-selected="false">Biology &amp; Behaviour</button>
-        <button class="tab" data-tab="climate" role="tab" aria-selected="false">Climate &amp; Habitat</button>
-        <button class="tab" data-tab="conservation" role="tab" aria-selected="false">Conservation &amp; Ecology</button>
+  <!-- DRAWER -->
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <button id="closeDrawer" class="drawer-close">✕</button>
+
+    <div class="drawer-content">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="biology">Biology</button>
+        <button class="tab" data-tab="climate">Climate</button>
+        <button class="tab" data-tab="conservation">Conservation</button>
       </div>
 
-      <div class="tab-pane" id="overviewPane" role="tabpanel"></div>
-      <div class="tab-pane" id="biologyPane" style="display:none" role="tabpanel"></div>
-      <div class="tab-pane" id="climatePane" style="display:none" role="tabpanel"></div>
-      <div class="tab-pane" id="conservationPane" style="display:none" role="tabpanel"></div>
+      <div id="overviewPane" class="tab-pane"></div>
+      <div id="biologyPane" class="tab-pane" style="display:none"></div>
+      <div id="climatePane" class="tab-pane" style="display:none"></div>
+      <div id="conservationPane" class="tab-pane" style="display:none"></div>
     </div>
   </aside>
 
+  <!-- FOOTER -->
   <footer class="site-footer">
-    &copy; 2025 Penguin World. All rights reserved.
+    © 2025 Penguin World. All rights reserved.
   </footer>
 
-  <!-- Scripts -->
+  <!-- SCRIPTS -->
   <script src="penguins.js"></script>
   <script src="climates.js"></script>
   <script src="script.js"></script>
-  <script>
-    // Drawer open patch for climate tab
-    const originalOpenDrawer = window.openDrawer;
-    window.openDrawer = function(species) {
-      if (typeof originalOpenDrawer === 'function') originalOpenDrawer(species);
-      if (species && species.id && typeof window.renderClimateTab === 'function') {
-        window.renderClimateTab(species.id);
-      }
-    };
 
-    // Tab switching logic
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        const paneId = tab.dataset.tab + 'Pane';
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
-        document.getElementById(paneId).style.display = 'block';
-      });
-    });
-
-    // Close drawer
-    document.getElementById('closeDrawer').addEventListener('click', () => {
-      document.getElementById('detailDrawer').setAttribute('aria-hidden', 'true');
-    });
-  </script>
 </body>
 </html>
