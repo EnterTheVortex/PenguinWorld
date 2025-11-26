@@ -223,4 +223,3 @@ if (clearFiltersBtn) {
 // Init
 // -------------------------------------------
 renderCards(penguins);
- 
