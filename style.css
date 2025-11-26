@@ -148,7 +148,7 @@ body {
   background: var(--card-bg);
   border-radius: var(--radius);
   box-shadow: 0 3px 12px var(--shadow);
-  padding: 30px;  
+  padding: 30px;
   text-align: center;
   cursor: pointer;
   transition: transform .2s, box-shadow .2s;
@@ -200,9 +200,9 @@ body {
 .drawer {
   position: fixed;
   top: 0;
-  right: -450px;
-  width: 450px;
-  max-width: 96%;
+  right: -380px;
+  width: 380px;    /* slightly smaller to prevent cutoff */
+  max-width: 94%;
   height: 100%;
   background: var(--card-bg);
   box-shadow: -4px 0 12px rgba(0,0,0,0.1);
