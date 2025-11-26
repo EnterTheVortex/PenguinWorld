@@ -7,7 +7,13 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    :root {--brand:#0b7285;--muted:#6b8b8f;--card:#fff;--border:#d7e4e7;--accent:#0b7285}
+    :root {
+      --brand:#0b7285;
+      --muted:#6b8b8f;
+      --card:#fff;
+      --border:#d7e4e7;
+      --accent:#0b7285;
+    }
 
     body {
       font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;
@@ -57,10 +63,10 @@
       border-bottom:1px solid var(--border);
       box-shadow:0 8px 22px rgba(0,0,0,0.06);
       padding:12px;
-      transform:translateY(-10px);
+      transform:translateY(-20px);
       opacity:0;
       visibility:hidden;
-      transition:.25s ease;
+      transition:.28s ease;
       z-index:1150;
     }
 
@@ -87,12 +93,14 @@
       min-width:140px;
       background:#fff;
       font-size:0.95rem;
+      flex:1 1 auto;
     }
 
     .mobile-filter-actions {
       display:flex;
       gap:8px;
-      margin-left:auto;
+      width:100%;
+      margin-top:8px;
     }
 
     .btn {
@@ -103,6 +111,7 @@
       border-radius:10px;
       cursor:pointer;
       font-weight:600;
+      flex:1;
     }
 
     .btn-secondary {
@@ -125,15 +134,15 @@
 
     .grid {
       display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-      gap:16px;
+      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:18px;
       margin-top:16px;
     }
 
     .card {
       background:var(--card);
       border-radius:14px;
-      padding:10px;
+      padding:12px;
       box-shadow:0 6px 18px rgba(3,64,120,0.06);
       cursor:pointer;
       transition:transform .14s,box-shadow .14s;
@@ -144,7 +153,7 @@
     }
 
     .thumb {
-      height:140px;
+      height:160px;
       overflow:hidden;
       border-radius:10px;
     }
@@ -154,31 +163,39 @@
       object-fit:cover;
     }
 
-    .card h3 {margin:10px 0 4px;font-size:1.05rem}
-    .card p {margin:0;color:var(--muted);font-size:0.85rem}
+    .card h3 {margin:10px 0 4px;font-size:1.08rem}
+    .card p {margin:0;color:var(--muted);font-size:0.88rem}
 
     /* DRAWER */
     .drawer {
       position:fixed;
       top:0;
       right:0;
-      width:420px;
-      max-width:96%;
+      width:380px;
+      max-width:93%;
       height:100%;
       background:#fff;
       box-shadow:-8px 0 30px rgba(0,0,0,0.12);
       transform:translateX(100%);
-      transition:transform .28s;
+      transition:transform .28s ease;
       z-index:1200;
-      overflow:auto;
+      overflow-y:auto;
     }
     .drawer[aria-hidden="false"] {transform:translateX(0)}
+
     .drawer-close {
-      position:absolute; right:12px; top:10px;
-      border:none; background:none; font-size:1.4rem; cursor:pointer;
+      position:absolute;
+      right:12px;
+      top:14px;
+      border:none;
+      background:none;
+      font-size:1.6rem;
+      cursor:pointer;
     }
 
-    .drawer-content {padding:48px 18px 28px}
+    .drawer-content {
+      padding:52px 20px 32px;
+    }
 
     .tabs {
       display:flex;
@@ -187,7 +204,7 @@
     }
     .tab {
       flex:1;
-      padding:8px;
+      padding:10px;
       border-radius:8px;
       border:none;
       background:#e9fbfd;
@@ -198,14 +215,13 @@
       color:#fff;
       font-weight:700;
     }
-    .tab-pane {display:block}
 
     .detail-img {
       width:100%;
-      height:160px;
+      height:180px;
       object-fit:cover;
       border-radius:8px;
-      margin:8px 0;
+      margin:8px 0 16px;
     }
 
     footer.site-footer {
@@ -217,17 +233,16 @@
       font-size:0.85rem;
     }
 
-    /* MOBILE BREAKPOINT */
+    /* MOBILE FIXES */
     @media(max-width:640px) {
       .controls { display:none; }
       .mobile-controls { display:block; }
       .site-header { gap:12px; padding:14px 16px; }
-      .mobile-filter-inner select {
-        flex:1 1 140px;
-        min-width:130px;
+      .drawer {
+        width:100%;
+        max-width:100%;
       }
-      .drawer { width:100%; }
-      .detail-img { height:200px; }
+      .detail-img { height:210px; }
     }
   </style>
 </head>
@@ -241,14 +256,14 @@
     <!-- DESKTOP FILTERS -->
     <nav class="controls" aria-label="site controls">
       <input id="search" placeholder="Search species..." aria-label="Search species"/>
-      <select id="filterRegion" aria-label="Filter region">
+      <select id="filterRegion">
         <option value="all">All regions</option>
         <option value="antarctica">Antarctica</option>
         <option value="subantarctic">Subantarctic & islands</option>
-        <option value="temperate">Temperate (S. America, Africa, Australia/NZ)</option>
-        <option value="tropical">Tropical (Galápagos)</option>
+        <option value="temperate">Temperate</option>
+        <option value="tropical">Tropical</option>
       </select>
-      <select id="sortBy" aria-label="Sort species">
+      <select id="sortBy">
         <option value="name">Sort: Name</option>
         <option value="size_desc">Sort: Size (largest)</option>
         <option value="size_asc">Sort: Size (smallest)</option>
@@ -267,20 +282,18 @@
   <div id="mobileFilterPanel" class="mobile-filter-panel" aria-hidden="true">
     <div class="mobile-filter-inner">
 
-      <label class="visually-hidden" for="mobileFilterRegion">Filter region</label>
       <select id="mobileFilterRegion">
         <option value="all">All regions</option>
         <option value="antarctica">Antarctica</option>
         <option value="subantarctic">Subantarctic & islands</option>
-        <option value="temperate">Temperate (South America, Africa, Australia/NZ)</option>
-        <option value="tropical">Tropical (Galápagos)</option>
+        <option value="temperate">Temperate</option>
+        <option value="tropical">Tropical</option>
       </select>
 
-      <label class="visually-hidden" for="mobileSortBy">Sort species</label>
       <select id="mobileSortBy">
         <option value="name">Sort: Name</option>
-        <option value="size_desc">Sort: Size (largest)</option>
-        <option value="size_asc">Sort: Size (smallest)</option>
+        <option value="size_desc">Sort: Largest</option>
+        <option value="size_asc">Sort: Smallest</option>
       </select>
 
       <div class="mobile-filter-actions">
@@ -296,7 +309,7 @@
       <h1>Penguin World — Species Guide</h1>
       <p class="muted">
         Interactive encyclopedia covering all recognised penguin species.  
-        Click a card to view detailed information, biology, climate, and conservation.
+        Tap a card to explore full details.
       </p>
     </section>
 
@@ -308,17 +321,17 @@
     <button id="closeDrawer" class="drawer-close">✕</button>
 
     <div class="drawer-content">
-      <div class="tabs" role="tablist">
+      <div class="tabs">
         <button class="tab active" data-tab="overview">Overview</button>
         <button class="tab" data-tab="biology">Biology</button>
         <button class="tab" data-tab="climate">Climate</button>
         <button class="tab" data-tab="conservation">Conservation</button>
       </div>
 
-      <div id="overviewPane" class="tab-pane"></div>
-      <div id="biologyPane" class="tab-pane" style="display:none"></div>
-      <div id="climatePane" class="tab-pane" style="display:none"></div>
-      <div id="conservationPane" class="tab-pane" style="display:none"></div>
+      <div id="overviewPane"></div>
+      <div id="biologyPane" style="display:none"></div>
+      <div id="climatePane" style="display:none"></div>
+      <div id="conservationPane" style="display:none"></div>
     </div>
   </aside>
 
@@ -327,10 +340,30 @@
     © 2025 Penguin World. All rights reserved.
   </footer>
 
-  <!-- SCRIPTS -->
+  <!-- MAIN SCRIPTS -->
   <script src="penguins.js"></script>
   <script src="climates.js"></script>
   <script src="script.js"></script>
+
+  <!-- MOBILE FILTER TOGGLE LOGIC (fixes the button) -->
+  <script>
+    const toggleBtn = document.getElementById("toggleFiltersBtn");
+    const mobilePanel = document.getElementById("mobileFilterPanel");
+
+    toggleBtn.addEventListener("click", () => {
+      const expanded = toggleBtn.getAttribute("aria-expanded") === "true";
+      toggleBtn.setAttribute("aria-expanded", !expanded);
+      mobilePanel.classList.toggle("open");
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!mobilePanel.contains(e.target) && !toggleBtn.contains(e.target)) {
+        mobilePanel.classList.remove("open");
+        toggleBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+  </script>
 
 </body>
 </html>
